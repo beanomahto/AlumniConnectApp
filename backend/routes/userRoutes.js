@@ -4,7 +4,6 @@ const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-
 //CREATE USER
 router.post("/register", async (req, res) => {
   const { name, email, password, role, batch, branch, jobTitle, company, location, bio, profilePicture, socialLinks, tags } = req.body;
@@ -51,7 +50,6 @@ router.get("/directory", protect, async (req, res) => {
   }
 });
 
-
 //GET ONE USER
 router.get("/profile", protect, async (req, res) => {
   try {
@@ -70,6 +68,36 @@ router.get("/profile", protect, async (req, res) => {
   } catch (error) {
     console.error("Error fetching profile:", error);
     res.status(500).json({ message: "Server error fetching profile" });
+  }
+});
+
+//UPDATE USER
+router.put("/profile", protect, async (req, res) => {
+  const { name, email, batch, branch, jobTitle, company, location, bio, profilePicture, socialLinks, tags } = req.body;
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.batch = batch || user.batch;
+    user.branch = branch || user.branch;
+    user.jobTitle = jobTitle || user.jobTitle;
+    user.company = company || user.company;
+    user.location = location || user.location;
+    user.bio = bio || user.bio;
+    user.profilePicture = profilePicture || user.profilePicture;
+    user.socialLinks = socialLinks || user.socialLinks;
+    user.tags = tags || user.tags;
+
+    const updatedUser = await user.save();
+    const { password, ...userData } = updatedUser.toObject();
+    res.json(userData);
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.status(500).json({ message: "Server error updating profile" });
   }
 });
 
