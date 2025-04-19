@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 import DirectoryPage from './pages/DirectoryPage'
 import ProfilePage from './pages/ProfilePage'
+import FeedPage from './pages/FeedPage'
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false)
@@ -39,6 +40,7 @@ const App = () => {
         />
         <Route path="/directory" element={<DirectoryPage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/feed" element={<FeedPage />} />
       </Routes>
     </Router>
   )
