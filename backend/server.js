@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const connectDB = require("./src/config/db");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const http = require("http");
 const User = require("./models/User");
 const { v4: uuidv4 } = require("uuid");
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 // === Server Start ===
 app.get("/", (req, res) => res.send("API is running..."));
