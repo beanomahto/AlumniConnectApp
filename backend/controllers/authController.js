@@ -9,14 +9,40 @@ const generateToken = (id) => {
 
 // Signup
 exports.registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const {
+    name,
+    email,
+    password,
+    role,
+    batch,
+    branch,
+    jobTitle,
+    company,
+    location,
+    bio,
+    profilePicture,
+    socialLinks,
+  } = req.body;
 
   try {
     let userExists = await User.findOne({ email });
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role,
+      batch,
+      branch,
+      jobTitle,
+      company,
+      location,
+      bio,
+      profilePicture,
+      socialLinks,
+    });
 
     res.status(201).json({
       _id: user.id,
